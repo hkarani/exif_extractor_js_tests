@@ -47,8 +47,8 @@ iv. Run docker image with the interface emulator
         
 	
 	
-v. Then you can go within the exif_extractor_test project and uncomment a function call you'd like to test. The url of the lamnda function running locally will look like
-	`http://localhost:9000/2015-03-31/functions/function/invocations` Depending on the port you choose run the docker run on as in (iv)
+v. Then you can go within the exif_extractor_test project and uncomment a function call you'd like to test. The url of the lamnda function running locally will look like this
+	`http://localhost:9000/2015-03-31/functions/function/invocations` depending on the port you choose run the docker run on as in (iv)
 		
 vi. Copy the url into the post call in test.js and Run node test.js in terminal after uncommenting function passing images to the the lambda function you'd like
 		to test.
