@@ -20,7 +20,7 @@ ii) Clones Lambda function repository
 		git clone https://github.com/hkarani/exif_extractor_js.git
 	
 	
-<h1>3. Testing Locally</h1>
+<h1>3. Testing Lambda Function Locally</h1>
 
 i. Open exif_extractor_js project in terminal
 	
@@ -66,7 +66,7 @@ Alternatively to stop all running docker images go with
 	docker stop $(docker ps -q)
 
 		
-<h1>4. Deploying and Testin Lambda Function </h1>
+<h1>4. Deploy and Test Lambda Function </h1>
 
 1. Authenticate Docker CLI to Amazon ECR Registry, replace 012345678910 with your AWS account ID. You need to have set up your aws credentials.
     
