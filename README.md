@@ -36,15 +36,14 @@ iii. Install runtime interace emulator on your machine
 
 iv. Run docker image with the interface emulator
    
-    		docker run --platform linux/amd64 -d -v ~/.aws-lambda-rie:/aws-lambda -p 9000:8080 \      
+    	docker run --platform linux/amd64 -d -v ~/.aws-lambda-rie:/aws-lambda -p 9000:8080 \      
         --entrypoint /aws-lambda/aws-lambda-rie \
         exif_extractor:latest \
         /usr/local/bin/npx aws-lambda-ric index.handler
         
    A succesfull attempt will leave an print and output like one below
    
-        	c70a36164d87652031142cf13495b3722aa540e9f1f257b3b11ccb7dd11dfa3c
-        
+        	c70a36164d87652031142cf13495b3722aa540e9f1f257b3b11ccb7dd11dfa3c        
 	
 	
 v. Then you can go within the exif_extractor_test project and uncomment a function call you'd like to test. The url of the lamnda function running locally will look like this
@@ -74,12 +73,12 @@ Alternatively to stop all running docker images go with
 		
 Success will return login succeeded
 		
-2. Create an Amazong ECR  for you docker image. Replace "exifextractor" with an name of your choice
+2. Create an Amazong ECR  for you docker image. Replace "exif_extractor" with a name of your choice
 	
 	        aws ecr create-repository --repository-name exif_extractor --region us-east-1 --image-scanning-configuration scanOnPush=true --image-tag-mutability MUTABLE
 	
 A successful result will look like this
-    		{
+    		`{
     		    "repository": {
     			"repositoryArn": "arn:aws:ecr:us-east-1:012345678910:repository/exif_extractor",
     			"registryId": "012345678910",
@@ -94,7 +93,7 @@ A successful result will look like this
     			    "encryptionType": "AES256"
     			}
     		    }
-    		}
+    		}`
 		
 3. Copy the repositoryUri from the successfully created repository and tag your local image to it like below
 	
@@ -120,7 +119,7 @@ A successful result will look like this
 In Configurations change set the timeout to a higher value of more than 30 seconds since image data processing can take time for larger images and due to network lag. Click Save to save changes.
    
 8. Still in Configurations go to Function URL and create a function url. Select Auth_type as NONE for testing only.
-Copy the funtion url and test it exif_extractor_js_test code by running node test.js.
+Copy the funtion url and test it exif_extractor_js_test code by running `node test.js`.
   	
   	
 	
