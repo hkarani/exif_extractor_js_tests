@@ -1,6 +1,6 @@
 # exif_extractor_js_tests
 
-#<big>1.Prerequisites</big>
+#<h1>1.Prerequisites</h1>
 
 
 You need to have installed the following
