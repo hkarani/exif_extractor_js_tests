@@ -1,32 +1,32 @@
 # exif_extractor_js_tests
 
-#<h1>1.Prerequisites</h1>
+<h1>1.Prerequisites</h1>
 
 
-You need to have installed the following
+You need to have installed the following:
 
-	npm
-	nodejs
-	docker
-	aws-cli 
-	An aws -account with correct permissions
+		npm
+		nodejs
+		docker
+		aws-cli 
+		An aws -account with correct permissions
  
 2. i) Clone the tests repository
    
 		git clone https://github.com/hkarani/exif_extractor_js_tests.git
 
-ii) Clones Lambda function repo 
+ii) Clones Lambda function repository
 
 		git clone https://github.com/hkarani/exif_extractor_js.git
 	
 	
-#3. Testing Locally
+<h1>3. Testing Locally</h1>
 
 i. Open exif_extractor_js project in terminal
 	
 ii. Build the project to test from your machine
 
-		  docker build --platform linux/amd64 -t exif_extractor:latest . 
+		docker build --platform linux/amd64 -t exif_extractor:latest . 
 		
 iii. Install runtime interace emulator on your machine
 
@@ -55,21 +55,22 @@ vi. Copy the url into the post call in test.js and Run node test.js in terminal 
 		
 vii. To stop image
 
-		      docker ps
+	docker ps
    
 vii Copy the container id and pass it to docker kill
 
-          docker kill 3766c4ab331c
+        docker kill 3766c4ab331c
 		
 Alternatively to stop all running docker images go with
 
-			  docker stop $(docker ps -q)
+	docker stop $(docker ps -q)
 
 		
-#4. Deploying image
+<h1>4. Deploying and Testin Lambda Function </h1>
+
 1. Authenticate Docker CLI to Amazon ECR Registry, replace 012345678910 with your AWS account ID. You need to have set up your aws credentials.
     
-		    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 012345678910.dkr.ecr.us-east-1.amazonaws.com
+		aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 012345678910.dkr.ecr.us-east-1.amazonaws.com
 		
 Success will return login succeeded
 		
@@ -97,11 +98,11 @@ A successful result will look like this
 		
 3. Copy the repositoryUri from the successfully created repository and tag your local image to it like below
 	
-		    docker tag exif_extractor:latest 012345678910.dkr.ecr.us-east-1.amazonaws.com/exif_extractor
+		docker tag exif_extractor:latest 012345678910.dkr.ecr.us-east-1.amazonaws.com/exif_extractor
 		
 4. Push the local image to Amazon ECR
     
-		    docker push 012345678910.dkr.ecr.us-east-1.amazonaws.com/exif_extractor
+		docker push 012345678910.dkr.ecr.us-east-1.amazonaws.com/exif_extractor
 	
 4b. For the next step you will need a configured role to create a lambda function via terminal. If you don't have one, to create a role use the command below and you can replace "exif_extractor_lambda_role" with an alternative role name of your choice.
 	
