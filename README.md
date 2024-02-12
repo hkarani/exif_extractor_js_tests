@@ -1,1 +1,121 @@
 # exif_extractor_js_tests
+
+#1.Prerequisites
+You need to have installed
+	npm
+	nodejs
+	docker
+	aws-cli 
+	aws -account with correct permissions
+	
+2. Getting code
+	
+	
+#3. Testing Locally
+
+i. Open exif_extractor_js project in terminal
+	
+ii. Build the project to test from docker file
+
+		  docker build --platform linux/amd64 -t exif_extractor:latest . 
+		
+iii. Install runtime interace emulator on your machine
+
+		mkdir -p ~/.aws-lambda-rie && \                                                             
+    		curl -Lo ~/.aws-lambda-rie/aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie && \
+    		chmod +x ~/.aws-lambda-rie/aws-lambda-rie
+
+  iv. Run docker image with the interface emulator
+   
+    		docker run --platform linux/amd64 -d -v ~/.aws-lambda-rie:/aws-lambda -p 9000:8080 \      
+        --entrypoint /aws-lambda/aws-lambda-rie \
+        exif_extractor:latest \
+        /usr/local/bin/npx aws-lambda-ric index.handler
+        
+   A succesfull attempt will leave an output like one below
+        	c70a36164d87652031142cf13495b3722aa540e9f1f257b3b11ccb7dd11dfa3c
+        
+	
+	
+v. Then you can go within the exif_extractor_test project and uncomment function a calls you'd like to test. The url of the lamnda function running locally will look like
+	`http://localhost:9000/2015-03-31/functions/function/invocations` Depending on the port you choose run the code on	
+		
+vi. Copy the url into the post call in test.js and Run node test.js in terminal after uncommenting function passing images to the the lambda function you'd like
+		to test.
+		
+vii. To stop image
+
+		      docker ps
+   
+vii copy the container id and pass it to docker kill
+
+          docker kill 3766c4ab331c
+		
+Alternatively stop all running docker images with
+
+			  docker stop $(docker ps -q)
+
+		
+#4. Deploying image
+1. Authenticate Docker CLI to Amazon ECR Registry, replace 012345678910 with your AWS account ID. You need to have set up your aws credentials
+    
+		    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 012345678910.dkr.ecr.us-east-1.amazonaws.com
+		
+Success will return login succeeded
+		
+2. Create an Amazong ECR  for you docker image. Replace "exifextractor with an name of your choice"
+	
+	        aws ecr create-repository --repository-name exif_extractor --region us-east-1 --image-scanning-configuration scanOnPush=true --image-tag-mutability MUTABLE
+	
+A successful result will look like this
+    		{
+    		    "repository": {
+    			"repositoryArn": "arn:aws:ecr:us-east-1:012345678910:repository/exif_extractor",
+    			"registryId": "012345678910",
+    			"repositoryName": "exif_extractor",
+    			"repositoryUri": "012345678910.dkr.ecr.us-east-1.amazonaws.com/exif_extractor",
+    			"createdAt": 1707731520.493,
+    			"imageTagMutability": "MUTABLE",
+    			"imageScanningConfiguration": {
+    			    "scanOnPush": true
+    			},
+    			"encryptionConfiguration": {
+    			    "encryptionType": "AES256"
+    			}
+    		    }
+    		}
+		
+3. Copy the repositoryUri from the successfully created repository and tag your local image to it like below
+	
+		    docker tag exif_extractor:latest 012345678910.dkr.ecr.us-east-1.amazonaws.com/exif_extractor
+		
+4. Push the local image to Amazon ECR
+    
+		    docker push 012345678910.dkr.ecr.us-east-1.amazonaws.com/exif_extractor
+	
+4b. For the next step you will need a configured role to create a lambda function via terminal. If you don't have one, to create a role use the command below and you can replace "exif_extractor_lambda_role" with an alternative role name of your choice if you like
+	
+	     aws iam create-role --role-name exif_extractor_lambda_role --assume-role-policy-document '{"Version": "2012-10-17","Statement": [{ "Effect": "Allow", "Principal": {"Service": "lambda.amazonaws.com"}, "Action": "sts:AssumeRole"}]}'
+	
+5. Create a lambda function with the pushed image. Replace "exif_extractor_lambda_role" with a registered role with correct permission
+	
+    		aws lambda create-function \
+      		--function-name exif_extractor \
+      		--package-type Image \
+      		--code ImageUri=0123456789.dkr.ecr.us-east-1.amazonaws.com/exif_extractor:latest \
+      		--role arn:aws:iam::012345678910:role/exif_extractor_lambda_role
+  		
+6. Login into your AWS an go to the function you just created.
+      
+  	In Configurations change set the timeout to a higher value of more than 30 seconds since image data processing can take time for larger images and network lag. Click save to save changes.
+  	8. Still Configurations go to function URL and create a function url. Select Auth_type as NONE for testing only.
+  	
+  	Copy the url and test it exif_extractor test code by running node test.js.
+  	
+  	
+	
+	
+	
+		
+
+
