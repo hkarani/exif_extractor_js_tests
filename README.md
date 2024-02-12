@@ -1,7 +1,10 @@
 # exif_extractor_js_tests
 
 #1.Prerequisites
+
+
 You need to have installed the following
+
 	npm
 	nodejs
 	docker
