@@ -7,8 +7,14 @@ You need to have installed
 	docker
 	aws-cli 
 	aws -account with correct permissions
-	
-2. Getting code
+ 
+2. i) Clone the tests repository
+   
+		git clone https://github.com/hkarani/exif_extractor_js_tests.git
+
+ii) Clones Lambda function code 
+
+		git clone https://github.com/hkarani/exif_extractor_js.git
 	
 	
 #3. Testing Locally
@@ -106,11 +112,10 @@ A successful result will look like this
       		--role arn:aws:iam::012345678910:role/exif_extractor_lambda_role
   		
 6. Login into your AWS an go to the function you just created.
-      
-  	In Configurations change set the timeout to a higher value of more than 30 seconds since image data processing can take time for larger images and network lag. Click save to save changes.
-  	8. Still Configurations go to function URL and create a function url. Select Auth_type as NONE for testing only.
-  	
-  	Copy the url and test it exif_extractor test code by running node test.js.
+In Configurations change set the timeout to a higher value of more than 30 seconds since image data processing can take time for larger images and network lag. Click save to save changes.
+   
+8. Still in Configurations go to function URL and create a function url. Select Auth_type as NONE for testing only.
+Copy the funtion url and test it exif_extractor_js_test code by running node test.js.
   	
   	
 	
