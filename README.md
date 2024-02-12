@@ -15,7 +15,7 @@ You need to have installed the following:
    
 		git clone https://github.com/hkarani/exif_extractor_js_tests.git
 
-ii) Clones Lambda function repository
+   ii) Clone Lambda function repository
 
 		git clone https://github.com/hkarani/exif_extractor_js.git
 	
