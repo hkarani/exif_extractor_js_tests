@@ -55,8 +55,7 @@ iv. Run docker image with the interface emulator
 v. Then you can go within the exif_extractor_test project and uncomment a function call you'd like to test. The url of the lamnda function running locally will look like this
 	`http://localhost:9000/2015-03-31/functions/function/invocations` depending on the port you choose run the docker run on as in (iv)
 		
-vi. Copy the url into the post call in test.js and Run node test.js in terminal after uncommenting function passing images to the the lambda function you'd like
-		to test.
+vi. Copy the url into the post call in test.js and Run node test.js in terminal after uncommenting function passing images to the the lambda function you'd like to test.
 		
 vii. To stop image
 
@@ -77,9 +76,9 @@ Alternatively to stop all running docker images go with
     
 		aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 012345678910.dkr.ecr.us-east-1.amazonaws.com
 		
-Success will return login succeeded
+Success will return `Login succeeded`
 		
-2. Create an Amazong ECR  for you docker image. Replace "exif_extractor" with a name of your choice
+2. Create an Amazon ECR  for you docker image. Replace "exif_extractor" with a name of your choice
 	
 	        aws ecr create-repository --repository-name exif_extractor --region us-east-1 --image-scanning-configuration scanOnPush=true --image-tag-mutability MUTABLE
 	
@@ -125,10 +124,10 @@ A successful result will look like this
 
   		
 7. Login into your AWS an go to the function you just created.
-In Configurations change set the timeout to a higher value of more than 30 seconds since image data processing can take time for larger images and due to network lag. Click Save to save changes.
+In Configurations change the timeout value to a higher value of more than 30 seconds since image data processing can take time for larger images and due to network lag. Click Save to save changes.
    
 8. Still in Configurations go to Function URL and create a function url. Select Auth_type as NONE for testing only.
-Copy the funtion url and test it exif_extractor_js_test code by running `node test.js`.
+Copy the funtion url and test it in exif_extractor_js_test code by running `node test.js`.
   	
   	
 	
