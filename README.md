@@ -30,16 +30,18 @@ ii. Build the project to test from your machine
 		
 iii. Install runtime interace emulator on your machine
 
-		mkdir -p ~/.aws-lambda-rie && \                                                             
-    		curl -Lo ~/.aws-lambda-rie/aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie && \
-    		chmod +x ~/.aws-lambda-rie/aws-lambda-rie
+						mkdir -p ~/.aws-lambda-rie && \
+curl -Lo ~/.aws-lambda-rie/aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie && \
+chmod +x ~/.aws-lambda-rie/aws-lambda-rie
+
 
 iv. Run docker image with the interface emulator
    
-    	docker run --platform linux/amd64 -d -v ~/.aws-lambda-rie:/aws-lambda -p 9000:8080 \      
-        --entrypoint /aws-lambda/aws-lambda-rie \
-        exif_extractor:latest \
-        /usr/local/bin/npx aws-lambda-ric index.handler
+    	docker run --platform linux/amd64 -d -v ~/.aws-lambda-rie:/aws-lambda -p 9000:8080 \
+--entrypoint /aws-lambda/aws-lambda-rie \
+exif_extractor:latest \
+/usr/local/bin/npx aws-lambda-ric index.handler
+
         
    A succesfull attempt will leave an print and output like one below
    
@@ -110,12 +112,13 @@ A successful result will look like this
 5. Create a lambda function with the pushed image. Replace "exif_extractor_lambda_role" with a registered role with correct permission
 	
     		aws lambda create-function \
-      		--function-name exif_extractor \
-      		--package-type Image \
-      		--code ImageUri=0123456789.dkr.ecr.us-east-1.amazonaws.com/exif_extractor:latest \
-      		--role arn:aws:iam::012345678910:role/exif_extractor_lambda_role
+   --function-name exif_extractor \
+   --package-type Image \
+   --code ImageUri=0123456789.dkr.ecr.us-east-1.amazonaws.com/exif_extractor:latest \
+   --role arn:aws:iam::012345678910:role/exif_extractor_lambda_role
+
   		
-6. Login into your AWS an go to the function you just created.
+7. Login into your AWS an go to the function you just created.
 In Configurations change set the timeout to a higher value of more than 30 seconds since image data processing can take time for larger images and due to network lag. Click Save to save changes.
    
 8. Still in Configurations go to Function URL and create a function url. Select Auth_type as NONE for testing only.
