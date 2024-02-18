@@ -12,9 +12,9 @@ async function extractExifData(url) {
         }       
 
         // Send payload in a POST request locally
-        axios.post('http://localhost:9000/2015-03-31/functions/function/invocations',datavals).
+        axios.post('https://2rqb7rkfbynm2zqtee62ryhhwy0bwhod.lambda-url.us-east-1.on.aws/',datavals).
         then((resp) => {
-                console.log(resp.data);
+                console.log(resp.data.body);
 
         })  
         
@@ -31,5 +31,5 @@ async function extractExifData(url) {
 // extractExifData('https://github.com/ianare/exif-samples/raw/master/tiff/Cr%C3%A9mieux11.tiff');
 // extractExifData('https://github.com/ianare/exif-samples/raw/master/tiff/Picoawards.tiff');
 // extractExifData('https://github.com/ianare/exif-samples/blob/master/jpg/gps/DSCN0027.jpg?raw=true');
-// extractExifData('https://github.com/ianare/exif-samples/raw/master/heic/mobile/HMD_Nokia_8.3_5G.heif');
-extractExifData('https://i.pinimg.com/originals/d9/34/d0/d934d091874d26ef5db598178b12340a.jpg');
+extractExifData('https://github.com/ianare/exif-samples/raw/master/heic/mobile/HMD_Nokia_8.3_5G.heif');
+
